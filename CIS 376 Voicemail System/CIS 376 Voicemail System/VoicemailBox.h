@@ -17,9 +17,10 @@ public:
 	~VoicemailBox();
 	bool exists();
 	bool hasNext();
-	std::string next();
-	void remove(std::string& path);
-	void save(std::string& path);
+	std::string& next();
+	void remove();
+	void save();
+	void skip();
 	void loadnew();
 	void loadold();
 };

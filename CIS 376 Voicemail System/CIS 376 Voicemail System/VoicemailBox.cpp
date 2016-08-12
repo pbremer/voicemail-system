@@ -29,21 +29,25 @@ bool VoicemailBox::hasNext()
 	return voicemails.size() > 0;
 }
 
-std::string VoicemailBox::next()
+std::string& VoicemailBox::next()
 {
-	std::string retVal = voicemails.front();
+	return voicemails.front();
+}
+
+void VoicemailBox::remove()
+{
+	fs::remove(fs::path(voicemails.front()));
 	voicemails.pop();
-	return retVal;
 }
 
-void VoicemailBox::remove(std::string& path)
-{
-	fs::remove(fs::path(path));
-}
-
-void VoicemailBox::save(std::string& path)
+void VoicemailBox::save()
 {
 	// Rel 2
+}
+
+void VoicemailBox::skip()
+{
+	voicemails.pop();
 }
 
 bool VoicemailBox::exists()

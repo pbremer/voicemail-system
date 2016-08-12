@@ -8,6 +8,7 @@ PhoneAdapter phoneAdapter(std::cin, std::cout);
 std::string datastorePath;
 
 void setup();
+void voicemailselection(std::string& val, VoicemailBox& vmbox);
 // Rel 2: Remove and get phone number from phone system API
 void intro(std::string& val);
 
@@ -17,44 +18,43 @@ int main(int argc, const char* argv[]) {
 
 	std::string input;
 
-	while (true)
+	intro(input);
+	PhoneNumber phoneNumber;
+	if (PhoneNumber::parse(input, phoneNumber))
 	{
-		intro(input);
-		PhoneNumber phoneNumber;
-		if (PhoneNumber::parse(input, phoneNumber))
+		phoneNumber.searchdir = datastorePath;
+		VoicemailBox vmailbox(phoneNumber);
+		if (vmailbox.exists())
 		{
-			phoneNumber.searchdir = datastorePath;
-			VoicemailBox vmailbox(phoneNumber);
-			if (vmailbox.exists())
+			vmailbox.loadnew();
+			while (vmailbox.hasNext())
 			{
-				vmailbox.loadnew();
-				while (vmailbox.hasNext())
-				{
-					std::string audio = vmailbox.next();
-					phoneAdapter.play(audio);
-					std::cout << "Get selection..." << std::endl;
-				}
+				std::string audio = vmailbox.next();
+				phoneAdapter.play(audio);
+				voicemailselection(input, vmailbox);
+			}
 
-				std::cout << "No new voicemails" << std::endl;
+			std::cout << "No new voicemails" << std::endl;
 				
-				vmailbox.loadold();
-				while (vmailbox.hasNext())
-				{
-					phoneAdapter.play(vmailbox.next());
-					std::cout << "Get selection..." << std::endl;
-				}
-
-				std::cout << "No saved voicemails" << std::endl;
-			}
-			else
+			vmailbox.loadold();
+			while (vmailbox.hasNext())
 			{
-				std::cout << "Does not exist" << std::endl;
+				phoneAdapter.play(vmailbox.next());
+				std::cout << "Get selection..." << std::endl;
 			}
+
+			std::cout << "No saved voicemails" << std::endl;
+			std::cout << "Goodbye" << std::endl;
+			system("pause");
 		}
 		else
 		{
-			std::cout << input << " is not a valid phone number" << std::endl;
+			std::cout << "Does not exist" << std::endl;
 		}
+	}
+	else
+	{
+		std::cout << input << " is not a valid phone number" << std::endl;
 	}
 }
 
@@ -77,4 +77,29 @@ void intro(std::string& val)
 	std::cout << "Please enter phone number: ";
 	val.clear();
 	int len = phoneAdapter.getUntil("#", val);
+}
+
+void voicemailselection(std::string& val, VoicemailBox& vmbox)
+{
+	bool valid = false;
+	do
+	{
+		std::cout << "1 to skip, 9 to delete: ";
+		val.clear();
+		phoneAdapter.getNext(1, val);
+		if ("1" == val)
+		{
+			valid = true;
+			vmbox.skip();
+		}
+		else if ("9" == val)
+		{
+			valid = true;
+			vmbox.remove();
+		}
+		else
+		{
+			std::cout << val << " is not a valid selection" << std::endl;
+		}
+	} while (!valid);
 }
