@@ -23,6 +23,7 @@ public:
 	void skip();
 	void loadnew();
 	void loadold();
+	int count();
 };
 
 #endif

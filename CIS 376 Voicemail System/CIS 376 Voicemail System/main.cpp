@@ -27,6 +27,11 @@ int main(int argc, const char* argv[]) {
 		if (vmailbox.exists())
 		{
 			vmailbox.loadnew();
+			if (vmailbox.count() > 0)
+			{
+				std::cout << vmailbox.count() << " new voicemail(s)" << std::endl;
+			}
+			
 			while (vmailbox.hasNext())
 			{
 				std::string audio = vmailbox.next();

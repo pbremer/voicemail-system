@@ -90,3 +90,8 @@ void VoicemailBox::loadold()
 		}
 	}
 }
+
+int VoicemailBox::count()
+{
+	return voicemails.size();
+}
