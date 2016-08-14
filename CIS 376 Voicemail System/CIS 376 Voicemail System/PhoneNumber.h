@@ -6,7 +6,7 @@
 
 struct PhoneNumber
 {
-#define PHONE_REGEX std::regex("(\\+\\d{1,3}|\\d{0,3})?(\\(\\d{1,3}\\)|\\d{1,3}-?)\\d{3}-?\\d{4}(x\\d{4})?", std::regex_constants::ECMAScript|std::regex_constants::icase)
+#define PHONE_REGEX std::regex("(\\+\\d{1,3}|\\d{0,3})?(\\(\\d{3}\\)|\\d{3}-?)\\d{3}-?\\d{4}(x\\d{4})?", std::regex_constants::ECMAScript|std::regex_constants::icase)
 #define DEFAULT_COUNTRY_CODE "1"
 
 	std::string countryCode, areaCode, localExchange, lineNumber, extension;

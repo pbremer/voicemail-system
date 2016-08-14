@@ -45,7 +45,6 @@ int main(int argc, const char* argv[]) {
 
 			std::cout << "No saved voicemails" << std::endl;
 			std::cout << "Goodbye" << std::endl;
-			system("pause");
 		}
 		else
 		{
@@ -56,6 +55,7 @@ int main(int argc, const char* argv[]) {
 	{
 		std::cout << input << " is not a valid phone number" << std::endl;
 	}
+	system("pause");
 }
 
 void setup()
