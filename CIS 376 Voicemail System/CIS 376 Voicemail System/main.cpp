@@ -79,7 +79,11 @@ void setup()
 void intro(std::string& val)
 {
 	std::cout << "Thank you for using the voicemail system" << std::endl;
-	std::cout << "Please enter phone number: ";
+	std::cout << "Please enter phone number in valid format ending with '#'" << std::endl;
+	std::cout << "Valid formats:" << std::endl << "\t+<Country code> (<Area code>) <Local exchange>-<Line number>x<Extension>" << std::endl;
+	std::cout << "\t<Country code><Area code><Local exchange><Line number>x<Extension>" << std::endl;
+	std::cout << "Note: Country code and extension are optional and country code will default to 1 if omitted" << std::endl;
+	std::cout << "Phone number: ";
 	val.clear();
 	int len = phoneAdapter.getUntil("#", val);
 }
